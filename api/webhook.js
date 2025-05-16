@@ -4,22 +4,22 @@ import fetch from 'node-fetch';
 // Environment variables
 const {
   FB_VERIFY_TOKEN,
-  PG_HOST,
-  PG_PORT,
-  PG_USER,
-  PG_PASSWORD,
-  PG_DATABASE,
+  SUPABASE_PG_HOST,
+  SUPABASE_PG_PORT,
+  SUPABASE_PG_USER,
+  SUPABASE_PG_PASSWORD,
+  SUPABASE_PG_DATABASE,
   AI_API_URL
 } = process.env;
 
-// PostgreSQL client
+// PostgreSQL client for Supabase
 const pool = new Pool({
-  host: PG_HOST,
-  port: PG_PORT,
-  user: PG_USER,
-  password: PG_PASSWORD,
-  database: PG_DATABASE,
-  ssl: { rejectUnauthorized: false }
+  host: SUPABASE_PG_HOST,
+  port: SUPABASE_PG_PORT,
+  user: SUPABASE_PG_USER,
+  password: SUPABASE_PG_PASSWORD,
+  database: SUPABASE_PG_DATABASE,
+  ssl: { rejectUnauthorized: false } // Supabase requires SSL
 });
 
 // Call AI API
@@ -39,7 +39,7 @@ async function callAIModel(message, pageId) {
   }
 }
 
-// Get Page Access Token from PostgreSQL
+// Get Page Access Token from Supabase PostgreSQL
 async function getPageToken(pageId) {
   try {
     const client = await pool.connect();
@@ -111,7 +111,7 @@ export default async function handler(req, res) {
 
             // Call AI model
             // const reply = await callAIModel(messageText, pageId);
-            const reply = "hihi"
+            const reply = "hihi";
 
             // Send response
             await sendMessage(senderId, reply, token, pageId);
